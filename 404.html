@@ -12,7 +12,6 @@
             margin: 0;
             box-sizing: border-box;
         }
-
         html,
         body {
             width: 100%;
@@ -22,7 +21,6 @@
             background-color: #2d323a;
             color: #ced3d8;
         }
-
         .upper,
         .lower {
             position: relative;
@@ -31,16 +29,13 @@
             overflow: hidden;
             transform: rotate(-45deg);
         }
-
         .upper {
             transform-origin: bottom center;
         }
-
         .lower {
             transform-origin: top center;
             top: -1px;
         }
-
         .upper__content,
         .lower__content {
             position: absolute;
@@ -56,25 +51,19 @@
             transform: rotate(45deg);
             transform-origin: center center;
         }
-
         .upper__content {
             bottom: -100px;
         }
-
         .lower__content {
             top: -100px;
         }
-
         .swipe {
             animation: swipe .1s 1;
         }
-
         .swipe-reverse {
             animation: swipe-reverse .1s 1;
         }
-
         @keyframes swipe {
-
             0%,
             100% {
                 transform: rotate(45deg);
@@ -84,9 +73,7 @@
                 transform: translateX(100px) rotate(45deg);
             }
         }
-
         @keyframes swipe-reverse {
-
             0%,
             100% {
                 transform: rotate(45deg);
@@ -96,7 +83,6 @@
                 transform: translateX(-100px) rotate(45deg);
             }
         }
-
         .cover {
             position: absolute;
             top: 0;
@@ -105,7 +91,6 @@
             height: 100%;
             overflow: hidden;
         }
-
         .cover__line {
             display: inline-block;
             transform-origin: center left;
@@ -114,27 +99,21 @@
             height: 2px;
             margin: 0px 0;
         }
-
         .cover__line.active {
             animation: blink .1s 1;
         }
-
         @keyframes blink {
-
             0%,
             100% {
                 opacity: 0;
             }
-
             50% {
                 background-color: #eee;
                 opacity: 1;
             }
         }
-
     </style>
 </head>
-
 <body>
     <div class="upper" id="js__upper">
         <p class="upper__content" id="js__upper__content">ERROR</p>
@@ -144,7 +123,6 @@
     </div>
     <div class="cover">
     </div>
-
     <script>
         const Line = (function () {
             const maxWidth = 130;
@@ -152,7 +130,6 @@
             const maxHeight = 5;
             const minHeight = 1;
             let index = 0;
-
             return {
                 createLine(count) {
                     for (let i = 0; i < count; i++) {
@@ -205,7 +182,6 @@
             const dLowerContent = document.getElementById('js__lower__content');
             const minDistance = 20;
             const maxDistance = 120;
-
             return {
                 setDividingLine(distance) {
                     const transform = `rotate(-45deg) translateY(${100 - distance}px)`;
@@ -231,15 +207,9 @@
             }
         })()
 
-        // 创建一定数量的线条
         Line.createLine(100);
-
-        // 启动线条
         Line.run(100, 2000, 10, 50);
-
-        // 启动 LOGO
         Logo.run(100, 3000);
-
     </script>
 </body>
 </html>
