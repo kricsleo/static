@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+  <link rel="stylesheet" href="https://oss.kricsleo.com/github.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="article">
+    <div class="sidebar">
+      <img src="https://oss.kricsleo.com/avatar.jpg" class="sidebar__avatar">
+      <input class="sidebar__input" id="sidebar__input" type="text" placeholder="type something" autofocus>
+      <ul class="sidebar__input-result" id="sidebar__input-result"></ul>
+      <p class="sidebar__copyright">
+        @<a href="/">kricleo.com</a>
+      </p>
+    </div>
+    <div class="article__wrapper">
+      <div class="article__viewport">
+        <div class="article__content">
+          <p>今天又着了<code>vertical-align</code>的道了</p>
+<p>场景：多个<code>display:inline-block</code>的<code>div</code>排在一行，他们的宽高内外边距都是相同的，唯一不同的是<code>div</code>里面的多行文本，有的是一行，有的是多行，然后<code>div</code>就会在水平方向参差不齐，如下</p>
+<p>![image-20211102105506044](/Users/shengfeng.xu/Library/Application Support/typora-user-images/image-20211102105506044.png)</p>
+<p>开发阶段文本都是一行的，所以没看出问题，提测之后数据出现了多行文本导致没有对齐，一个bug产生了，当时看到第一反应就是水平方向的对齐问题十有八九是<code>vertical-align</code>导致的，手动给<code>div.box</code>添加一个<code>vertical-align:middle</code>临时解决问题，还是要知道问题产生的根源是什么。</p>
+<p>我们知道<code>vertical-align</code>影响的是元素的<code>baseline</code>等参考线和它父元素的<code>baseline</code>等参考线的对齐关系，对于文本元素我们比较好按照常用的字母<code>x</code>来定位参考线位置，但是对于一个里面可能含有多个子元素的<code>inline-block</code>元素而言，它的<code>baseline</code>在哪呢？</p>
+<blockquote>
+<p>The baseline of an ‘inline-block’ is the baseline of its last line box in the normal flow, unless it has either no in-flow line boxes or if its ‘overflow’ property has a computed value other than ‘visible’, in which case the baseline is the bottom margin edge.</p>
+<p>––<a href="https://www.w3.org/TR/CSS2/visudet.html#leading">w3c</a></p>
+</blockquote>
+<p>这个规则我也是在查找资料的过程中第一次知道，按照这个规则重新来看我们上面的布局，<code>box</code>元素里面有一个<code>h5</code>和<code>p</code>元素，<code>p</code>元素是最后一个行元素(<code> in-flow line boxes</code>)，那么<code>p</code>元素的<code>baseline</code>就是父元素<code>box</code>元素的<code>baseline</code>，所以三个<code>box</code>元素水平对齐时的参考位置就变成了它们里面的三个<code>p</code>元素对齐，这与图中的表现是一致的，三个<code>p</code>元素底部对齐(多行文本时每一行文本都有自己的<code>baseline</code>，按照「最后一个行元素」的规则使用最后一行元素的<code>baseline</code>)，这导致它们的父元素<code>box</code>没有对齐</p>
+<p>为什么添加<code>vertical-align:middle</code>可以让<code>box</code>对齐？</p>
+<p>我是真的很烦这个属性的，相关的解释和资料看过很多次，还是觉得很烦，一句话此时：元素<code>box</code>的中部与父元素的基线加上父元素x-height（<a href="https://www.zhangxinxu.com/wordpress/2015/06/about-letter-x-of-css/">x高度</a>）的一半对齐。这个时候<code>box</code>的自身高度参与排布规则，而不是默认的<code>baseline</code>，所以避免了上面的问题(改为<code>top``bottom</code>等也是一样的效果)。</p>
+<p>我们还可以改变<code>overflow</code>属性使其不为<code>visible</code>，比如<code>overflow:hidden</code>来达到同样的效果，这个时候是因为我们破坏了上面w3c规则的限定条件<code> if its 'overflow' property has a computed value other than 'visible'</code>, <code>box</code>元素的<code>baseline</code>不再由<code>p</code>元素决定，而是由自身的底部位置来决定，这样三个<code>box</code>的参考位置就相同了，也就能水平对齐了</p>
+<p>![image-20211102114520610](/Users/shengfeng.xu/Library/Application Support/typora-user-images/image-20211102114520610.png)</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://oss.kricsleo.com/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="index.js"></script>
+</body>
+</html>

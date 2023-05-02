@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+  <link rel="stylesheet" href="https://oss.kricsleo.com/github.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="article">
+    <div class="sidebar">
+      <img src="https://oss.kricsleo.com/avatar.jpg" class="sidebar__avatar">
+      <input class="sidebar__input" id="sidebar__input" type="text" placeholder="type something" autofocus>
+      <ul class="sidebar__input-result" id="sidebar__input-result"></ul>
+      <p class="sidebar__copyright">
+        @<a href="/">kricleo.com</a>
+      </p>
+    </div>
+    <div class="article__wrapper">
+      <div class="article__viewport">
+        <div class="article__content">
+          <h1></h1>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+<p>Nginx 服务</p>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+<p>静态资源转发-》cdn-》oss</p>
+</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<p>接口服务-》koa-》es/mysql</p>
+</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"/>
+<p>全文检索服务</p>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+<del>es</del>: es占用的内存太大了, 目前考虑弃用转向其他的更轻量的全文检索方式</li>
+<li><input disabled="" type="checkbox"/>
+Mysql + ngram</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<p>node服务</p>
+<p>暂时想使用koa，一个原因是暂时没有那么复杂的需求，另一个原因koa相对来说比较轻量和点型，在使用的过程中能够逐渐学习，举一反三</p>
+<p>但是我可能还会做seo相关的内容，那么koa就太过于简单，不如一些集成了服务端渲染的框架例如nextjs或者nuxtjs</p>
+<p>先上koa！！摸通了koa以后再逐步考虑seo的问题</p>
+</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<p>oss 服务</p>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+原始域名：kricsleo.oss-cn-hangzhou.aliyuncs.com</li>
+<li><input disabled="" type="checkbox" checked=""/>
+绑定域名：oss.kricsleo.com</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<p>cdn 服务</p>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+CNAME：oss.kricsleo.com.w.kunlunaq.com</li>
+<li><input disabled="" type="checkbox" checked=""/>
+源站：oss.kricsleo.com</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<p>基于hooks的自动部署更新服务</p>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+本地开发push代码</li>
+<li><input disabled="" type="checkbox" checked=""/>
+使用git hooks 推送push事件到blog-server</li>
+<li><input disabled="" type="checkbox" checked=""/>
+使用blog-server /deploy api接收push事件</li>
+<li><input disabled="" type="checkbox" checked=""/>
+使用shell git 判断package.json 和 yarn.lock是否变更，如果变更后续需要执行yarn重新安装依赖，否则不重新安装依赖</li>
+<li><input disabled="" type="checkbox" checked=""/>
+~~使用shell git 判断app.json是否更新，如果变更后续需要使用pm2 restart服务，否则使用pm2 reload服~~改为使用cluster集群模式, 可以直接启动ts, 免编译</li>
+<li><input disabled="" type="checkbox" checked=""/>
+使用shell git 拉取最新代码到本地</li>
+<li><input disabled="" type="checkbox" checked=""/>
+[根据之前的依赖变更判断是否执行yarn重新安装依赖]</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<del>根据之前的app.json变更判断使用pm2 restart服务还是pm2 reload服务</del> 改为使用cluster逐个停止旧进程并开启新进程, 服务也可以达到平滑重启的目的</li>
+</ul>
+</li>
+</ul>
+<video id="video" controls="" preload="none" poster="封面">
+      <source id="mp4" src="https://vdn1.vzuu.com/SD/d6014312-2336-11eb-87b9-bae1634971f0.mp4?disable_local_cache=1&auth_key=1624502343-0-0-0586bd5ebd880a697362f5a0705c5516&f=mp4&bu=pico&expiration=1624502343&v=hw" type="video/mp4">
+</videos>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://oss.kricsleo.com/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+  <link rel="stylesheet" href="https://oss.kricsleo.com/github.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="article">
+    <div class="sidebar">
+      <img src="https://oss.kricsleo.com/avatar.jpg" class="sidebar__avatar">
+      <input class="sidebar__input" id="sidebar__input" type="text" placeholder="type something" autofocus>
+      <ul class="sidebar__input-result" id="sidebar__input-result"></ul>
+      <p class="sidebar__copyright">
+        @<a href="/">kricleo.com</a>
+      </p>
+    </div>
+    <div class="article__wrapper">
+      <div class="article__viewport">
+        <div class="article__content">
+          <h1>rust</h1>
+<h2><code>String</code>vs<code>&amp;String</code>vs<code>&amp;str</code></h2>
+<ul>
+<li><code>String</code>: 可变的，堆上分配的<code>UTF-8</code>字节缓冲区，有<code>len()</code>和``capaciry*() <code>(注: </code>len()<code>代表当前实际占用的空间, </code>capacity()<code>代表已经分配的空间, 可能是大于</code>len()<code>的, 类比一个大小为10的数组当前只存储了一个对象)，例如: </code>let mut a = String::from(“demo”);`</li>
+<li><code>&amp;String</code>: 引用<code>String</code>, 由于只是引用, 不获取所有权, 无法修改, 所以可以当做<code>&amp;str</code>(类型也不会报错)</li>
+<li><code>&amp;str</code>: 不可变的固定长度的字符串，如果是从<code>String</code>解引用来的则指向堆，如果是字面值，则指向静态内存，只有<code>len()</code>, 例如：<code>let b = &quot;demo&quot;; </code></li>
+</ul>
+<p>互相转换</p>
+<ul>
+<li><code>String</code> -&gt; <code>&amp;str</code>:  <code>x.as_str()</code></li>
+<li><code>&amp;str</code> -&gt;  <code>String</code>: <code>x.to_string()</code>|<code>x.to_owned()</code>|<code>String::from(x)</code></li>
+</ul>
+<h2><code>iter()</code>vs<code>iter_mut()</code>vs<code>into_iter()</code></h2>
+<p><code>iter()</code>: <code>&amp;self</code>
+<code>iter_mut()</code>: <code>&amp;mut self</code>
+<code>into_iter()</code>: <code>self</code></p>
+<pre><code class="language-rust">let v = vec!(47);
+for i in v.iter() {
+	assert_eq!(i, &amp;47);
+}
+
+let mut v = vec!(47);
+for i in v.iter_mut() {
+	*i = 48;
+	assert_eq!(i, &amp;48);
+}
+
+let v = vec!(47);
+for mut i in v.into_iter() {
+	i += 1;
+	assert_eq!(i, 48);
+}
+</code></pre>
+<h2><code>clone()</code>vs<code>to_owned()	</code></h2>
+<p>ref: https://stackoverflow.com/questions/22264502/in-rust-what-is-the-difference-between-clone-and-to-owned
+<code>clone()</code>: 只能实现&amp;T -&gt; T, 使用的更频繁一些
+<code>to_owned()</code>: 可以实现更复杂一些的别的类型-&gt;T, 使用的相对少一些</p>
+<h2><code>AsRef</code>vs<code>AsMut</code></h2>
+<p>ref: https://wiki.jikexueyuan.com/project/rust-primer/intoborrow/asref.html
+二者都是<code>Trait</code>
+<code>AsRef</code>: 对一个类型为<code>T</code>的对象<code>foo</code>, 如果<code>T</code>实现了<code>AsRef&lt;U&gt;</code>, 那么<code>foo</code>可执行<code>foo.as_ref()</code>操作, 得到一个<code>&amp;U</code>
+例如: <code>String</code>和<code>&amp;str</code>都实现了<code>AsRef&lt;str&gt;</code>, 所以一下代码都可以运行</p>
+<pre><code class="language-rust">fn is_hello&lt;T: AsRef&lt;str&gt;&gt;(s: T) {
+	assert_eq!(&quot;hello&quot;, s);
+}
+
+let s = &quot;hello&quot;;
+is_hello(s);
+
+let s2 = &quot;hello&quot;.to_string();
+is_hello(s2);
+</code></pre>
+<p><code>AsMut</code>: 是<code>AsRef</code>的可变引用版本, 对应的方法是<code>.as_mut()</code></p>
+<h2><code>&amp;&amp;&amp;&amp;&amp;&amp;str.len()</code></h2>
+<p>这个表达式之所以能调用，是因为<code>rust</code>的自动解引用特性：https://zhuanlan.zhihu.com/p/21615411
+函数使用引用参数时，参数不会发生<code>move</code>的, 因为引用会自动按位复制给函数使用</p>
+<h2><code>Cow</code></h2>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://oss.kricsleo.com/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="index.js"></script>
+</body>
+</html>
